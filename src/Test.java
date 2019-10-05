@@ -24,7 +24,7 @@ public class Test {
             {
                 System.out.println(res.getInt("id") + res.getString("name") + res.getString("dept"));
             }
-        }catch (SQLException e)
+        }catch (SQLException | ClassNotFoundException e)
         {
             System.out.println(e);
         }
