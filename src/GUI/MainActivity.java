@@ -18,7 +18,7 @@ public class MainActivity extends javax.swing.JFrame {
      */
     public MainActivity(Connect conn) {
         initComponents();
-        //System.out.println(conn.username);
+        System.out.println(conn.username);
     }
 
     public MainActivity() {
