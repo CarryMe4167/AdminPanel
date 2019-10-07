@@ -40,7 +40,7 @@ public class coreRedundant {
 //                conn.close();
 //        }
         System.out.println("Creating Connect object");
-        Connect connObj = new Connect();
+        Connect connObj = new Connect("dipto", "dipto123", "@localhost");
         System.out.println("Created Connect object");
     }
 }

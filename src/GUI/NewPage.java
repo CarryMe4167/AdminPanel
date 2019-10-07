@@ -1,8 +1,13 @@
 package GUI;
 
+import core.Connect;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class NewPage extends JFrame {
     private JPanel Panel2;
@@ -12,8 +17,10 @@ public class NewPage extends JFrame {
     private JButton viewDataButton;
     private JButton deleteDataButton;
     private JButton deleteTableButton;
+    private Statement stmt = null;
+    //StringBuilder x = new StringBuilder("");
 
-    public NewPage(){
+    public NewPage(Connect connection){
         //setSize(500,500);
         setContentPane(Panel2);
         pack();
@@ -22,7 +29,20 @@ public class NewPage extends JFrame {
         viewTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                FunctionalPage functionalPage = new FunctionalPage();
+                try {
+                    stmt = connection.conn.createStatement();
+                    ResultSet res = stmt.executeQuery("select table_name from user_tables");// where owner = '" + connection.username + "'"); //this is a select query
+                    while (res.next())
+                    {
+                        String temp = res.getString("table_name");
+                        //x.append(temp);
+                        //x.append("\n");
+                        System.out.println("Table Name = " + res.getString("table_name"));
+                    }
+                } catch (SQLException | NullPointerException e) {
+                    e.printStackTrace();
+                }
+//                FunctionalPage functionalPage = new FunctionalPage(x);
             }
         });
         insertDataButton.addActionListener(new ActionListener() {

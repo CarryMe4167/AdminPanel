@@ -1,5 +1,7 @@
 package GUI;
 
+import core.Connect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,14 +15,27 @@ public class WelcomeScreen{
     private JRadioButton yesRadioButton;
     private JTextField textField1;
     private JTextField textField2;
+    private JTextField textField3;
+    String Username;
+    String Password;
+    String dbLocation;
 
     public WelcomeScreen() {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(null,"Login Done Succesfully");
-                NewPage newPage = new NewPage();
-
+                Username = textField3.getText();
+                Password = textField2.getText();
+                if ( yesRadioButton.isSelected() ) {
+                    dbLocation = "@localhost";
+                    if (Username != null && Password != null && dbLocation != null) {
+                        Connect conn = new Connect(Username, Password, dbLocation);
+                        JOptionPane.showMessageDialog(null, "Login Done Succesfully");
+                        NewPage newPage = new NewPage(conn);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Insufficient information provided");
+                    }
+                }
             }
         });
     }
