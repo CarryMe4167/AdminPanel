@@ -15,6 +15,7 @@ import javax.swing.*;
  */
 public class ConnectToDatabase extends javax.swing.JFrame {
 
+    public boolean isConnected;
     /**
      * Creates new form ConnectToDatabase
      */
@@ -267,9 +268,17 @@ public class ConnectToDatabase extends javax.swing.JFrame {
     private void Connect_buttonMouseClicked(java.awt.event.MouseEvent evt) {
         if(yes_radio_button.isSelected()&&Username_TextField!=null&&Password_field!=null) {
             Connect conn = new Connect(Username_TextField.getText(), Password_field.getText(), "@localhost");// CONNECTION BUTTON PRESSED;
-            MainActivity mainActivity = new MainActivity(conn);
 
-            mainActivity.setVisible(true);
+            if(conn.isConnected == true) {
+                JOptionPane.showMessageDialog(null, "Successfully Logged in");
+                MainActivity mainActivity = new MainActivity(conn);
+                mainActivity.setVisible(true);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Login Denied");
+            }
+
         }
         else{
             JOptionPane.showMessageDialog(null,"Invalid Input. Please Try Again.");
