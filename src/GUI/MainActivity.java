@@ -175,7 +175,9 @@ public class MainActivity extends javax.swing.JFrame {
     }
 
     private void viewtableActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        ViewTable viewTable = new ViewTable();
+        dispose();
+        viewTable.setVisible(true);// TODO add your handling code here:
     }
 
     private void insertIntoActionPerformed(java.awt.event.ActionEvent evt) {
