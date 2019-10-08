@@ -268,6 +268,7 @@ public class ConnectToDatabase extends javax.swing.JFrame {
     private void Connect_buttonMouseClicked(java.awt.event.MouseEvent evt) {
         if(yes_radio_button.isSelected()&&Username_TextField!=null&&Password_field!=null) {
             Connect conn = new Connect(Username_TextField.getText(), Password_field.getText(), "@localhost");// CONNECTION BUTTON PRESSED;
+<<<<<<< HEAD
 
             if(conn.isConnected == true) {
                 JOptionPane.showMessageDialog(null, "Successfully Logged in");
@@ -279,6 +280,11 @@ public class ConnectToDatabase extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null,"Login Denied");
             }
 
+=======
+            MainActivity mainActivity = new MainActivity(conn);
+            dispose();
+            mainActivity.setVisible(true);
+>>>>>>> 035d725fa6723a4afa7767d4339c304453681c8a
         }
         else{
             JOptionPane.showMessageDialog(null,"Invalid Input. Please Try Again.");
