@@ -268,7 +268,7 @@ public class ConnectToDatabase extends javax.swing.JFrame {
         if(yes_radio_button.isSelected()&&Username_TextField!=null&&Password_field!=null) {
             Connect conn = new Connect(Username_TextField.getText(), Password_field.getText(), "@localhost");// CONNECTION BUTTON PRESSED;
             MainActivity mainActivity = new MainActivity(conn);
-
+            dispose();
             mainActivity.setVisible(true);
         }
         else{
