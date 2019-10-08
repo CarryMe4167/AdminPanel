@@ -66,6 +66,7 @@ public class ViewTable extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+
         TableName.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         TableName.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -169,7 +170,7 @@ public class ViewTable extends javax.swing.JFrame {
     }
 
     private void TableNameMouseClicked(java.awt.event.MouseEvent evt) {
-        // TODO add your handling code here:
+        String Str = TableName.getSelectedValue();// TODO add your handling code here: This Str Has to be queried and the properties of the table has to be returned:
     }
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {
