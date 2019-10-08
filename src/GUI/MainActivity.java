@@ -189,7 +189,9 @@ public class MainActivity extends javax.swing.JFrame {
     }
 
     private void createTableActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        CreateTable createTable = new CreateTable();
+        dispose();
+        createTable.setVisible(true);// TODO add your handling code here:
     }
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {
