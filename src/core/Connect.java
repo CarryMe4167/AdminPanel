@@ -10,6 +10,7 @@ public class Connect {
     public String password = null;
     public String dbLocation = null;
     public Connection conn = null;
+    public boolean isConnected = false;
 
     public Connect() throws ClassNotFoundException, SQLException {
         dbLocation = "jdbc:oracle:thin:";
@@ -35,6 +36,7 @@ public class Connect {
             Class.forName("oracle.jdbc.driver.OracleDriver"); //initialise driver
             conn = DriverManager.getConnection(dbLocation, username, password); //connect to local database
             System.out.println("Connection established successfully");
+            isConnected = true;
         }
         catch (SQLException | ClassNotFoundException e)
         {
@@ -53,6 +55,7 @@ public class Connect {
             Class.forName("oracle.jdbc.driver.OracleDriver"); //initialise driver
             conn = DriverManager.getConnection(dbLocation, username, password); //connect to local database
             System.out.println("Connection established successfully");
+            isConnected = true;
         }
         catch (SQLException | ClassNotFoundException e)
         {
