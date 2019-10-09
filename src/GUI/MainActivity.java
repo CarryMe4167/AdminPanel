@@ -39,6 +39,7 @@ public class MainActivity extends javax.swing.JFrame {
         delete_Table = new javax.swing.JButton();
         CustomQuery = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        disconnectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -54,6 +55,21 @@ public class MainActivity extends javax.swing.JFrame {
         createTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createTableActionPerformed(evt);
+            }
+        });
+
+        disconnectButton.setBackground(new java.awt.Color(255, 140, 0));
+        disconnectButton.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        disconnectButton.setForeground(new java.awt.Color(255, 255, 255));
+        disconnectButton.setText("Disconnect");
+        disconnectButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                disconnectButtonMouseClicked(evt);
+            }
+        });
+        disconnectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disconnectButtonActionPerformed(evt);
             }
         });
 
@@ -121,7 +137,9 @@ public class MainActivity extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addGap(44, 44, 44)
+                                .addComponent(disconnectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel3)
                                 .addGap(22, 22, 22))
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -129,7 +147,7 @@ public class MainActivity extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(delete_Table, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
                                                 .addComponent(ViewData, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(viewtable, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,14 +162,19 @@ public class MainActivity extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)
-                                .addGap(65, 65, 65)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(jLabel3))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(disconnectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(34, 34, 34)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(insertInto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(createTable, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(viewtable, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(delete_Table, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(ViewData, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,13 +204,19 @@ public class MainActivity extends javax.swing.JFrame {
     }
 
     private void insertIntoActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        InsertInto insertInto = new InsertInto();
+        dispose();
+        insertInto.setVisible(true);// TODO add your handling code here:
     }
 
     private void ViewDataActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
+    private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        ConnectToDatabase connect = new ConnectToDatabase();
+        dispose();
+        connect.setVisible(true);// TODO add your handling code here:
+    }
     private void createTableActionPerformed(java.awt.event.ActionEvent evt) {
         CreateTable createTable = new CreateTable();
         dispose();
@@ -197,7 +226,12 @@ public class MainActivity extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {
         System.exit(0);        // TODO add your handling code here:
     }
-
+    private void disconnectButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        ConnectToDatabase connect = new ConnectToDatabase();
+        dispose();
+        connect.setVisible(true);
+// TODO add your handling code here:
+    }
     /**
      * @param args the command line arguments
      */
@@ -242,5 +276,6 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton viewtable;
+    public javax.swing.JButton disconnectButton;
     // End of variables declaration
 }
