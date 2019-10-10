@@ -8,6 +8,23 @@ package GUI;
 /**
  *
  * @author nafiz
+ * Readme :
+ * The Buttons :
+ * doneButton ( bottom of the UI )
+ * add ( basically adds the attribute to the table with the data type )
+ *
+ * The TextFields :
+ * TableName1 ( String Containing The Name Of the Table )
+ * attributeName ( Name Of the Column u want to add to the table )
+ *
+ * The ComboBox :
+ * jComboBox1 ( contains the data type names of the attribute to be assigned , edit them in 99 no. line)
+ *
+ *
+ * The Table :
+ * Attrtable (Contains the attritubes wth their data types in unedittable form , to be in the table to be formed.)
+ *
+ *
  */
 public class CreateTable extends javax.swing.JFrame {
 
