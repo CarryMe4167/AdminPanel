@@ -190,11 +190,15 @@ public class MainActivity extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void CustomQueryActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        CustomQuery customQuery = new CustomQuery();
+        dispose();
+        customQuery.setVisible(true);// TODO add your handling code here:
     }
 
     private void delete_TableActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        delete_table Delete = new delete_table();
+        dispose();
+        Delete.setVisible(true);// TODO add your handling code here:
     }
 
     private void viewtableActionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +214,9 @@ public class MainActivity extends javax.swing.JFrame {
     }
 
     private void ViewDataActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        ViewData viewData = new ViewData();
+        dispose();
+        viewData.setVisible(true);// TODO add your handling code here:
     }
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {
         ConnectToDatabase connect = new ConnectToDatabase();
