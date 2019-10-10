@@ -8,6 +8,23 @@ package GUI;
 /**
  *
  * @author nafiz
+ * Readme :
+ * The Buttons :
+ * doneButton ( bottom of the UI )
+ * add ( basically adds the attribute to the table with the data type )
+ *
+ * The TextFields :
+ * TableName1 ( String Containing The Name Of the Table )
+ * attributeName ( Name Of the Column u want to add to the table )
+ *
+ * The ComboBox :
+ * jComboBox1 ( contains the data type names of the attribute to be assigned , edit them in 99 no. line)
+ *
+ *
+ * The Table :
+ * Attrtable (Contains the attritubes wth their data types in unedittable form , to be in the table to be formed.)
+ *
+ *
  */
 public class CreateTable extends javax.swing.JFrame {
 
@@ -36,17 +53,19 @@ public class CreateTable extends javax.swing.JFrame {
         TableName1 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         add = new javax.swing.JButton();
-        Data_type_list = new javax.swing.JLabel();
-        Attribute_List = new javax.swing.JLabel();
         doneButton = new javax.swing.JButton();
+        AttTableScroll = new javax.swing.JScrollPane();
+        Attrtable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 140, 0));
-        jLabel1.setText("View All Tables");
+        jLabel1.setText("Create Table");
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 17)); // NOI18N
         jLabel3.setText("Set Table Name :");
@@ -80,18 +99,11 @@ public class CreateTable extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {  }));
-        jComboBox1.addItem("number(3,0)");
-        jComboBox1.addItem("varchar2(255)");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         add.setBackground(new java.awt.Color(255, 140, 0));
         add.setForeground(new java.awt.Color(255, 255, 255));
         add.setText("Add");
-
-        Data_type_list.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Data_type_list.setText("Data Type");
-
-        Attribute_List.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Attribute_List.setText("Attributes Added");
 
         doneButton.setBackground(new java.awt.Color(255, 140, 0));
         doneButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -101,6 +113,34 @@ public class CreateTable extends javax.swing.JFrame {
                 doneButtonMouseClicked(evt);
             }
         });
+
+        Attrtable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null}
+                },
+                new String [] {
+                        "Attributes", "Data Type"
+                }
+        ){
+            boolean[] canEdit = new boolean [] {
+                    false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Attrtable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        AttTableScroll.setViewportView(Attrtable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,25 +158,18 @@ public class CreateTable extends javax.swing.JFrame {
                                                 .addComponent(jLabel3)
                                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jLabel4)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(attributeName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(18, 18, 18))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                                .addGap(0, 100, Short.MAX_VALUE)
-                                                                .addComponent(Attribute_List, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(76, 76, 76)))
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(Data_type_list, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(48, 48, 48)
-                                                                .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(jLabel4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                                                .addComponent(attributeName, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(48, 48, 48)
+                                                .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(42, 42, 42))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(AttTableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(71, 71, 71)
                                                 .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(42, 42, 42))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,12 +200,12 @@ public class CreateTable extends javax.swing.JFrame {
                                                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(attributeName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(Data_type_list, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Attribute_List, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(doneButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(AttTableScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(12, 12, 12)))
                                 .addContainerGap())
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -192,7 +225,8 @@ public class CreateTable extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 890, 420);
+        setSize(new java.awt.Dimension(890, 420));
+        setLocationRelativeTo(null);
     }// </editor-fold>
 
     private void attributeNameActionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +246,7 @@ public class CreateTable extends javax.swing.JFrame {
         dispose();
         mainAct.setVisible(true); // TODO add your handling code here:
     }
+
 
     /**
      * @param args the command line arguments
@@ -249,8 +284,8 @@ public class CreateTable extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JLabel Attribute_List;
-    private javax.swing.JLabel Data_type_list;
+    private javax.swing.JScrollPane AttTableScroll;
+    private javax.swing.JTable Attrtable;
     private javax.swing.JTextField TableName1;
     private javax.swing.JButton add;
     private javax.swing.JTextField attributeName;
