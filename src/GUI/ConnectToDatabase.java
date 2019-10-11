@@ -279,9 +279,6 @@ public class ConnectToDatabase extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null,"Login Denied");
             }
-
-
-
         }
         else{
             JOptionPane.showMessageDialog(null,"Invalid Input. Please Try Again.");

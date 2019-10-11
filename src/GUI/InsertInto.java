@@ -5,6 +5,12 @@
  */
 package GUI;
 
+import core.Connect;
+
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author nafiz
@@ -17,6 +23,25 @@ public class InsertInto extends javax.swing.JFrame {
     public InsertInto() {
         initComponents();
     }
+
+    public InsertInto(Connect conn, ResultSet rSet) throws SQLException {
+        initComponents();
+        connLocal = conn;
+        rSetPassed = rSet;
+        while (rSetPassed.next()) {
+            System.out.println("In while block");
+            try {
+                System.out.println("In try block");
+                String temp = rSetPassed.getString("table_name");
+                System.out.println(temp);
+                TableNameCombo.addItem(temp);
+            } catch (SQLException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +56,7 @@ public class InsertInto extends javax.swing.JFrame {
         closeButton = new javax.swing.JLabel();
         insertLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        TableNameCombo = new javax.swing.JComboBox<>();
+        TableNameCombo = new JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
         doneButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -59,7 +84,7 @@ public class InsertInto extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setText("Insert Into :");
 
-        TableNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        TableNameCombo.setModel(new DefaultComboBoxModel<String>(new String[] { "" }));
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel2.setText("Attributes ");
@@ -204,15 +229,17 @@ public class InsertInto extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new InsertInto().setVisible(true);
+
             }
         });
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JComboBox<String> TableNameCombo;
+    private JComboBox<String> TableNameCombo;
     private javax.swing.JLabel closeButton;
     private javax.swing.JButton doneButton;
     private javax.swing.JLabel insertLabel;
@@ -221,5 +248,7 @@ public class InsertInto extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    public Connect connLocal;
+    public ResultSet rSetPassed;
     // End of variables declaration
 }
