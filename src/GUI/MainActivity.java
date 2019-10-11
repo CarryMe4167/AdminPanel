@@ -129,7 +129,11 @@ public class MainActivity extends javax.swing.JFrame {
         delete_Table.setText("Delete Table");
         delete_Table.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                delete_TableActionPerformed(evt);
+                try {
+                    delete_TableActionPerformed(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -215,8 +219,17 @@ public class MainActivity extends javax.swing.JFrame {
         customQuery.setVisible(true);// TODO add your handling code here:
     }
 
-    private void delete_TableActionPerformed(java.awt.event.ActionEvent evt) {
-        delete_table Delete = new delete_table();
+    private void delete_TableActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+        ResultSet rset = null;
+        try{
+            Statement stmnt = connlocal.conn.createStatement();
+            rset = stmnt.executeQuery("select table_name from user_tables");
+
+        }catch(Exception ex){
+            System.out.println("Exception: " + ex);
+        }
+
+        delete_table Delete = new delete_table(connlocal, rset);
         dispose();
         Delete.setVisible(true);// TODO add your handling code here:
     }
