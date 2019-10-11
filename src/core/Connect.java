@@ -9,7 +9,7 @@ public class Connect {
     public String username = null;
     public String password = null;
     public String dbLocation = null;
-    public Connection conn = null;
+    public static Connection conn = null;
     public boolean isConnected = false;
 
     public Connect() throws ClassNotFoundException, SQLException {

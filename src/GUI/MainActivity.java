@@ -7,17 +7,25 @@ package GUI;
 
 import core.Connect;
 
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author nafiz
  */
 public class MainActivity extends javax.swing.JFrame {
 
+    private Object ResultSet;
+
     /**
      * Creates new form MainActivity
      */
     public MainActivity(Connect connect) {
         initComponents();
+        this.connlocal = connect;
     }
     public MainActivity() {
         initComponents();
@@ -64,7 +72,11 @@ public class MainActivity extends javax.swing.JFrame {
         disconnectButton.setText("Disconnect");
         disconnectButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                disconnectButtonMouseClicked(evt);
+                try {
+                    disconnectButtonMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
         disconnectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +101,11 @@ public class MainActivity extends javax.swing.JFrame {
         insertInto.setText("Insert Data");
         insertInto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertIntoActionPerformed(evt);
+                try {
+                    insertIntoActionPerformed(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -99,7 +115,11 @@ public class MainActivity extends javax.swing.JFrame {
         viewtable.setLabel("View All Tables");
         viewtable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewtableActionPerformed(evt);
+                try {
+                    viewtableActionPerformed(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -190,7 +210,7 @@ public class MainActivity extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void CustomQueryActionPerformed(java.awt.event.ActionEvent evt) {
-        CustomQuery customQuery = new CustomQuery();
+        CustomQuery customQuery = new CustomQuery(this.connlocal);
         dispose();
         customQuery.setVisible(true);// TODO add your handling code here:
     }
@@ -201,16 +221,38 @@ public class MainActivity extends javax.swing.JFrame {
         Delete.setVisible(true);// TODO add your handling code here:
     }
 
-    private void viewtableActionPerformed(java.awt.event.ActionEvent evt) {
-        ViewTable viewTable = new ViewTable();
+    private void viewtableActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+
+        ResultSet rset = null;
+        try{
+            Statement stmnt = connlocal.conn.createStatement();
+            rset = stmnt.executeQuery("select table_name from user_tables");
+
+        }catch(Exception ex){
+            System.out.println("Exception: " + ex);
+        }
+
+
+        ViewTable viewTable = new ViewTable(connlocal, rset);
         dispose();
         viewTable.setVisible(true);// TODO add your handling code here:
     }
 
-    private void insertIntoActionPerformed(java.awt.event.ActionEvent evt) {
-        InsertInto insertInto = new InsertInto();
+    private void insertIntoActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+        ResultSet rset = null;
+        try{
+            Statement stmnt = connlocal.conn.createStatement();
+             rset = stmnt.executeQuery("select table_name from user_tables");
+
+        }catch(Exception ex){
+            System.out.println("Exception: " + ex);
+        }
+
+        InsertInto insertInto = new InsertInto(connlocal, rset);
+
         dispose();
         insertInto.setVisible(true);// TODO add your handling code here:
+
     }
 
     private void ViewDataActionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,12 +261,20 @@ public class MainActivity extends javax.swing.JFrame {
         viewData.setVisible(true);// TODO add your handling code here:
     }
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
+            connlocal.conn.close();
+            System.out.println("Disconnected.");
+            JOptionPane.showMessageDialog(null, "Disconnected from Database");
+        }catch (SQLException ex)
+        {
+            System.out.println("Exception " + ex);
+        }
         ConnectToDatabase connect = new ConnectToDatabase();
         dispose();
         connect.setVisible(true);// TODO add your handling code here:
     }
     private void createTableActionPerformed(java.awt.event.ActionEvent evt) {
-        CreateTable createTable = new CreateTable();
+        CreateTable createTable = new CreateTable(this.connlocal);
         dispose();
         createTable.setVisible(true);// TODO add your handling code here:
     }
@@ -232,10 +282,20 @@ public class MainActivity extends javax.swing.JFrame {
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {
         System.exit(0);        // TODO add your handling code here:
     }
-    private void disconnectButtonMouseClicked(java.awt.event.MouseEvent evt) {
+    private void disconnectButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
+
+        try{
+            connlocal.conn.close();
+            System.out.println("Disconnected.");
+        }catch (SQLException ex)
+        {
+            System.out.println("Exception " + ex);
+        }
+        System.out.println("Hi");
         ConnectToDatabase connect = new ConnectToDatabase();
         dispose();
         connect.setVisible(true);
+
 // TODO add your handling code here:
     }
     /**
@@ -283,5 +343,6 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton viewtable;
     public javax.swing.JButton disconnectButton;
+    public Connect connlocal;
     // End of variables declaration
 }

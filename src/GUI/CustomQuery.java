@@ -5,6 +5,14 @@
  */
 package GUI;
 
+import core.Connect;
+
+import javax.swing.*;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author nafiz
@@ -13,9 +21,17 @@ public class CustomQuery extends javax.swing.JFrame {
 
     /**
      * Creates new form CustomQuery
+     * @param
      */
-    public CustomQuery() {
+    public  CustomQuery()
+    {
         initComponents();
+
+    }
+    public CustomQuery(Connect connect) {
+        initComponents();
+        this.connLocal = connect;
+
     }
 
     /**
@@ -57,14 +73,18 @@ public class CustomQuery extends javax.swing.JFrame {
         jLabel3.setText("SQL Editor :");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("<html><p style=\\\"width:100px\\\">paragraph</p><p>Hi</p></html>");
+        jLabel4.setText("");
 
         doneButton.setBackground(new java.awt.Color(255, 140, 0));
         doneButton.setForeground(new java.awt.Color(255, 255, 255));
         doneButton.setText("Ok");
         doneButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                doneButtonMouseClicked(evt);
+                try {
+                    doneButtonMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -119,10 +139,41 @@ public class CustomQuery extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneButtonMouseClicked
-        MainActivity mainAct = new MainActivity();
+    private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {//GEN-FIRST:event_doneButtonMouseClicked
+
+       try{
+           Statement stmnt = connLocal.conn.createStatement();
+           ResultSet rSet = stmnt.executeQuery(jTextArea1.getText());
+           ResultSetMetaData rsmd = rSet.getMetaData();
+           int columnsNumber = rsmd.getColumnCount();
+           while (rSet.next()) {
+               for (int i = 1; i <= columnsNumber; i++) {
+                   if (i > 1) System.out.print(",  ");
+                   String columnValue = rSet.getString(i);
+                   if(jLabel4.getText() != "") {
+                       jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
+                   }
+                   else
+                   {
+                       jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
+                   }
+                   System.out.print(columnValue + " " + rsmd.getColumnName(i));
+               }
+               System.out.println("");
+           }
+//           while(rSet.next())
+//           {
+//               jLabel4.setText(String.valueOf(rSet.getRow()));
+//               System.out.println("Salary: " + rSet.getInt("Salary"));
+//           }
+       }catch (Exception ex)
+       {
+           System.out.println("Exception: " + ex);
+       }
+
+        /*MainActivity mainAct = new MainActivity();
         dispose();
-        mainAct.setVisible(true);// TODO add your handling code here:
+        mainAct.setVisible(true);*/// TODO add your handling code here:
     }//GEN-LAST:event_doneButtonMouseClicked
 
     /**
@@ -169,5 +220,6 @@ public class CustomQuery extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    public Connect connLocal;
     // End of variables declaration//GEN-END:variables
 }

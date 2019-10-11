@@ -5,6 +5,14 @@
  */
 package GUI;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import core.Connect;
+
 /**
  *
  * @author nafiz
@@ -30,7 +38,12 @@ public class CreateTable extends javax.swing.JFrame {
 
     /**
      * Creates new form CreateTable
+     * @param
      */
+    public CreateTable(Connect connect) {
+        initComponents();
+        this.connlocal = connect;
+    }
     public CreateTable() {
         initComponents();
     }
@@ -99,11 +112,16 @@ public class CreateTable extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "varchar2(255)", "number" }));
 
         add.setBackground(new java.awt.Color(255, 140, 0));
         add.setForeground(new java.awt.Color(255, 255, 255));
         add.setText("Add");
+        add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addMouseClicked(evt);
+            }
+        });
 
         doneButton.setBackground(new java.awt.Color(255, 140, 0));
         doneButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,16 +134,6 @@ public class CreateTable extends javax.swing.JFrame {
 
         Attrtable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null}
                 },
                 new String [] {
                         "Attributes", "Data Type"
@@ -237,11 +245,45 @@ public class CreateTable extends javax.swing.JFrame {
         System.exit(0);        // TODO add your handling code here:
     }
 
+    private void addMouseClicked(MouseEvent evt){
+        ++count;
+        String addTableName = TableName1.getText();
+        String addAttribute = attributeName.getText();
+        String attributeType = jComboBox1.getSelectedItem().toString();
+        if(count == 1){
+            try {
+                Statement stmnt = connlocal.conn.createStatement();
+                stmnt.executeUpdate("create table "+ addTableName + "(" + addAttribute + " " + attributeType + ")");
+                System.out.println("Table Added");
+                stmnt.close();
+
+            }catch (SQLException sqle) {
+                System.out.println("SQLException : " + sqle);
+            }
+        }
+        else if(count > 1)
+        {
+            try {
+                Statement stmnt = connlocal.conn.createStatement();
+                stmnt.executeUpdate("ALTER TABLE "+ addTableName + " "+
+                        "ADD " + addAttribute + " " + attributeType);
+                System.out.println("Table Altered");
+                stmnt.close();
+
+            }catch (SQLException sqle) {
+                System.out.println("SQLException : " + sqle);
+            }
+        }
+        DefaultTableModel modelAttrTable = (DefaultTableModel)Attrtable.getModel();
+        modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
+
+    }
+
     private void TableName1ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
     private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        JOptionPane.showMessageDialog(null, "Table created successfully!");
         MainActivity mainAct = new MainActivity();
         dispose();
         mainAct.setVisible(true); // TODO add your handling code here:
@@ -296,5 +338,7 @@ public class CreateTable extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    public Connect connlocal;
+    public int count = 0;
     // End of variables declaration
 }

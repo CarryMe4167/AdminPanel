@@ -5,6 +5,16 @@
  */
 package GUI;
 
+import core.Connect;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author nafiz
@@ -16,6 +26,27 @@ public class ViewTable extends javax.swing.JFrame {
      */
     public ViewTable() {
         initComponents();
+    }
+
+    public ViewTable(Connect conn, ResultSet rset) throws SQLException {
+        initComponents();
+        connLocal = conn;
+        rSetPassed = rset;
+        DefaultListModel dlm = new DefaultListModel();
+        while (rSetPassed.next()) {
+            System.out.println("In while block");
+            try {
+                System.out.println("In try block");
+                String temp = rSetPassed.getString("table_name");
+                System.out.println(temp);
+                dlm.addElement(rSetPassed.getString("table_name"));
+            } catch (SQLException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        TableName.setModel(dlm);
+
+
     }
 
     /**
@@ -39,6 +70,7 @@ public class ViewTable extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         attributesList = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        showInfo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -74,6 +106,19 @@ public class ViewTable extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(TableName);
+
+        showInfo.setBackground(new java.awt.Color(255, 140, 0));
+        showInfo.setForeground(new java.awt.Color(255, 255, 255));
+        showInfo.setText("Show Table Info");
+        showInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    showInfoMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 140, 0));
@@ -132,6 +177,9 @@ public class ViewTable extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
                                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(81, 81, 81)
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(showInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(81, 81, 81))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -155,6 +203,9 @@ public class ViewTable extends javax.swing.JFrame {
                                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                                .addComponent(showInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(27, 27, 27))
         );
 
@@ -164,6 +215,40 @@ public class ViewTable extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(900, 450));
         setLocationRelativeTo(null);
     }// </editor-fold>
+
+    private void showInfoMouseClicked(MouseEvent evt) throws SQLException {
+        //Attribute
+        DefaultListModel dlm2 = new DefaultListModel();
+        String selectedTable = TableName.getSelectedValue();
+        System.out.println(selectedTable);
+        Statement stmnt1 = connLocal.conn.createStatement();
+
+        ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
+        ResultSetMetaData rsmd = rSet.getMetaData();
+        rSet.next();
+        for(int i = 1; i<=rsmd.getColumnCount(); i++) {
+            dlm2.addElement(rsmd.getColumnName(i));
+        }
+
+        attributesList.setModel(dlm2);
+
+        //Type
+        DefaultListModel dlm3 = new DefaultListModel();
+
+//        Statement stmnt2 = connLocal.conn.createStatement();
+//        ResultSet rSet2 = stmnt2.executeQuery("" );
+//        ResultSetMetaData rsmd2 = rSet2.getMetaData();
+//        rSet2.next();
+
+        rSet.next();
+        for(int i = 1; i<=rsmd.getColumnCount(); i++) {
+            dlm3.addElement(rsmd.getColumnTypeName(i));
+        }
+
+
+        dataTypeList.setModel(dlm3);
+
+    }
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {
         System.exit(0);        // TODO add your handling code here:
@@ -219,6 +304,7 @@ public class ViewTable extends javax.swing.JFrame {
     private javax.swing.JList<String> attributesList;
     private javax.swing.JList<String> dataTypeList;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton showInfo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -227,5 +313,7 @@ public class ViewTable extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    public Connect connLocal;
+    public ResultSet rSetPassed;
     // End of variables declaration
 }
