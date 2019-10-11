@@ -5,7 +5,15 @@
  */
 package GUI;
 
+import core.Connect;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static javax.swing.JOptionPane.NO_OPTION;
 import static javax.swing.JOptionPane.YES_OPTION;
@@ -18,9 +26,27 @@ public class delete_table extends javax.swing.JFrame {
 
     /**
      * Creates new form delete_table
+     * @param
      */
     public delete_table() {
         initComponents();
+    }
+    public delete_table(Connect conn, ResultSet rset) throws SQLException {
+        initComponents();
+        connLocal = conn;
+        rSet = rset;
+
+        while (rSet.next()) {
+            System.out.println("In while block");
+            try {
+                System.out.println("In try block");
+                String temp = rSet.getString("table_name");
+                System.out.println(temp);
+                TableNameCombo.addItem(temp);
+            } catch (SQLException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -40,7 +66,7 @@ public class delete_table extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         TableNameCombo = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        attrTable = new javax.swing.JTable();
         deleteButton = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
@@ -69,21 +95,10 @@ public class delete_table extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel2.setText("Table Name :");
 
-        TableNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        TableNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
+        attrTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
             new String [] {
                 "Attributes", "Data Type"
             }
@@ -96,14 +111,18 @@ public class delete_table extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(attrTable);
 
         deleteButton.setBackground(new java.awt.Color(255, 140, 0));
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("Delete");
         deleteButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deleteButtonMouseClicked(evt);
+                try {
+                    deleteButtonMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -175,12 +194,21 @@ public class delete_table extends javax.swing.JFrame {
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel3MouseClicked
 
-    private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseClicked
+    private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {//GEN-FIRST:event_deleteButtonMouseClicked
         int result = JOptionPane.showConfirmDialog(null,"Are you Sure You want to delete this table ?");
         if(result == YES_OPTION)
-        { MainActivity mainAct = new MainActivity();
-        dispose();
-        mainAct.setVisible(true);}
+        {
+            String selectedTable = TableNameCombo.getSelectedItem().toString();
+
+            Statement stmnt = connLocal.conn.createStatement();
+            stmnt.executeUpdate("drop table "+ selectedTable);
+            JOptionPane.showMessageDialog(null, "Table deleted successfully!");
+            //modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
+
+            MainActivity mainAct = new MainActivity();
+            dispose();
+            mainAct.setVisible(true);
+        }
         else if(result == NO_OPTION){
             MainActivity mainAct = new MainActivity();
             dispose();
@@ -188,6 +216,16 @@ public class delete_table extends javax.swing.JFrame {
         }
         else{
             //DO NOTHING;
+            String selectedTable = TableNameCombo.getSelectedItem().toString();
+            DefaultTableModel modelAttrTable = (DefaultTableModel)attrTable.getModel();
+            Statement stmnt1 = connLocal.conn.createStatement();
+
+            ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
+            ResultSetMetaData rsmd = rSet.getMetaData();
+            rSet.next();
+            for(int i = 1; i<=rsmd.getColumnCount(); i++) {
+                modelAttrTable.addRow(new Object[]{rsmd.getColumnName(i), rsmd.getColumnTypeName(i)});
+            }
         }
     }//GEN-LAST:event_deleteButtonMouseClicked
 
@@ -227,7 +265,7 @@ public class delete_table extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> TableNameCombo;
+    public javax.swing.JComboBox<String> TableNameCombo;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -235,7 +273,9 @@ public class delete_table extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable attrTable;
     private javax.swing.JTextArea jTextArea1;
+    public Connect connLocal;
+    public  ResultSet rSet;
     // End of variables declaration//GEN-END:variables
 }
