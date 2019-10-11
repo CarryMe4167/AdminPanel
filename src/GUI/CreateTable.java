@@ -250,32 +250,41 @@ public class CreateTable extends javax.swing.JFrame {
         String addTableName = TableName1.getText();
         String addAttribute = attributeName.getText();
         String attributeType = jComboBox1.getSelectedItem().toString();
-        if(count == 1){
-            try {
-                Statement stmnt = connlocal.conn.createStatement();
-                stmnt.executeUpdate("create table "+ addTableName + "(" + addAttribute + " " + attributeType + ")");
-                System.out.println("Table Added");
-                stmnt.close();
+        if(addTableName != null | addAttribute != null | attributeType != null) {
+            if (count == 1) {
+                try {
+                    Statement stmnt = connlocal.conn.createStatement();
+                    stmnt.executeUpdate("create table " + addTableName + "(" + addAttribute + " " + attributeType + ")");
+                    System.out.println("Table Added");
+                    isCreated = true;
+                    stmnt.close();
 
-            }catch (SQLException sqle) {
-                System.out.println("SQLException : " + sqle);
-            }
-        }
-        else if(count > 1)
-        {
-            try {
-                Statement stmnt = connlocal.conn.createStatement();
-                stmnt.executeUpdate("ALTER TABLE "+ addTableName + " "+
-                        "ADD " + addAttribute + " " + attributeType);
-                System.out.println("Table Altered");
-                stmnt.close();
+                } catch (Exception sqle) {
+                    isCreated = false;
+                    JOptionPane.showMessageDialog(null, "Row not added. SQLException : " + sqle);
+                    System.out.println("SQLException : " + sqle);
+                }
+            } else if (count > 1) {
+                try {
+                    Statement stmnt = connlocal.conn.createStatement();
+                    stmnt.executeUpdate("ALTER TABLE " + addTableName + " " +
+                            "ADD " + addAttribute + " " + attributeType);
+                    System.out.println("Table Altered");
+                    isCreated = true;
+                    stmnt.close();
+                    DefaultTableModel modelAttrTable = (DefaultTableModel) Attrtable.getModel();
+                    modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
 
-            }catch (SQLException sqle) {
-                System.out.println("SQLException : " + sqle);
+                } catch (Exception sqle) {
+                    isCreated = false;
+                    JOptionPane.showMessageDialog(null, "Row not added. SQLException : " + sqle);
+                    System.out.println("SQLException : " + sqle);
+                }
             }
+
+        }else{
+            JOptionPane.showMessageDialog(null, "Please fill all the fields.");
         }
-        DefaultTableModel modelAttrTable = (DefaultTableModel)Attrtable.getModel();
-        modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
 
     }
 
@@ -283,7 +292,11 @@ public class CreateTable extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
     private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        JOptionPane.showMessageDialog(null, "Table created successfully!");
+        if(isCreated == true) {
+            JOptionPane.showMessageDialog(null, "Table created successfully!");
+        }else {
+            JOptionPane.showMessageDialog(null, "Table is not created");
+        }
         MainActivity mainAct = new MainActivity();
         dispose();
         mainAct.setVisible(true); // TODO add your handling code here:
@@ -340,5 +353,6 @@ public class CreateTable extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     public Connect connlocal;
     public int count = 0;
+    public boolean isCreated = false;
     // End of variables declaration
 }

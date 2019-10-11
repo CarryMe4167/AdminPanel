@@ -198,21 +198,31 @@ public class delete_table extends javax.swing.JFrame {
         int result = JOptionPane.showConfirmDialog(null,"Are you Sure You want to delete this table ?");
         if(result == YES_OPTION)
         {
-            String selectedTable = TableNameCombo.getSelectedItem().toString();
-
-            Statement stmnt = connLocal.conn.createStatement();
-            stmnt.executeUpdate("drop table "+ selectedTable);
-            JOptionPane.showMessageDialog(null, "Table deleted successfully!");
+            try {
+                String selectedTable = TableNameCombo.getSelectedItem().toString();
+                if(selectedTable != "") {
+                    Statement stmnt = connLocal.conn.createStatement();
+                    stmnt.executeUpdate("drop table " + selectedTable);
+                    JOptionPane.showMessageDialog(null, "Table deleted successfully!");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Please select a table");
+                }
+            }catch (Exception ex)
+            {
+                JOptionPane.showMessageDialog(null, "Deletion failed!");
+                System.out.println("Exception: " + ex);
+            }
             //modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
-
+            //use a back button here. not the delete one.
             MainActivity mainAct = new MainActivity();
             dispose();
             mainAct.setVisible(true);
+
         }
         else if(result == NO_OPTION){
-            MainActivity mainAct = new MainActivity();
-            dispose();
-            mainAct.setVisible(true);// TODO add your handling code here:
+            //DO NOTHING
         }
         else{
             //DO NOTHING;
