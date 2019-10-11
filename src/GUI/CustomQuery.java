@@ -141,35 +141,37 @@ public class CustomQuery extends javax.swing.JFrame {
 
     private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {//GEN-FIRST:event_doneButtonMouseClicked
 
-       try{
-           Statement stmnt = connLocal.conn.createStatement();
-           ResultSet rSet = stmnt.executeQuery(jTextArea1.getText());
-           ResultSetMetaData rsmd = rSet.getMetaData();
-           int columnsNumber = rsmd.getColumnCount();
-           while (rSet.next()) {
-               for (int i = 1; i <= columnsNumber; i++) {
-                   if (i > 1) System.out.print(",  ");
-                   String columnValue = rSet.getString(i);
-                   if(jLabel4.getText() != "") {
-                       jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
-                   }
-                   else
-                   {
-                       jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
-                   }
-                   System.out.print(columnValue + " " + rsmd.getColumnName(i));
-               }
-               System.out.println("");
-           }
+        if(jTextArea1.getText()!= null) {
+            try {
+                Statement stmnt = connLocal.conn.createStatement();
+                ResultSet rSet = stmnt.executeQuery(jTextArea1.getText());
+                ResultSetMetaData rsmd = rSet.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                while (rSet.next()) {
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        if (i > 1) System.out.print(",  ");
+                        String columnValue = rSet.getString(i);
+                        if (jLabel4.getText() != "") {
+                            jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
+                        } else {
+                            jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
+                        }
+                        System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                    }
+                    System.out.println("");
+                }
 //           while(rSet.next())
 //           {
 //               jLabel4.setText(String.valueOf(rSet.getRow()));
 //               System.out.println("Salary: " + rSet.getInt("Salary"));
 //           }
-       }catch (Exception ex)
-       {
-           System.out.println("Exception: " + ex);
-       }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,"Query not done. Exception: " + ex);
+                System.out.println("Exception: " + ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Please fill up required fields");
+        }
 
         /*MainActivity mainAct = new MainActivity();
         dispose();
