@@ -257,12 +257,13 @@ public class MainActivity extends javax.swing.JFrame {
             Statement stmnt = connlocal.conn.createStatement();
              rset = stmnt.executeQuery("select table_name from user_tables");
 
+
+
         }catch(Exception ex){
             System.out.println("Exception: " + ex);
         }
 
         InsertInto insertInto = new InsertInto(connlocal, rset);
-
         dispose();
         insertInto.setVisible(true);// TODO add your handling code here:
 
