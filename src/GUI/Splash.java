@@ -16,6 +16,7 @@ public class Splash extends javax.swing.JFrame {
      */
     public Splash() {
         initComponents();
+        backButtonLocation = new String("/Resources/backbutton.png");
     }
 
     /**
@@ -145,5 +146,6 @@ public class Splash extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JProgressBar jProgressBar1;
+    public String backButtonLocation;
     // End of variables declaration//GEN-END:variables
 }

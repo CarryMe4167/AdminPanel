@@ -143,7 +143,7 @@ public class delete_table extends javax.swing.JFrame {
         });
 
         backButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/Resources/backbutton.png"));
+        ImageIcon imageIcon = new ImageIcon(getClass().getResource(new Splash().backButtonLocation));
         if(imageIcon!=null)
         {backButton.setIcon(imageIcon);}
         else{
