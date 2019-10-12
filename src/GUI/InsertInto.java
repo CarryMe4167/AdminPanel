@@ -61,6 +61,7 @@ public class InsertInto extends javax.swing.JFrame {
         doneButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        addButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -125,6 +126,15 @@ public class InsertInto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        addButton.setBackground(new java.awt.Color(255, 140, 0));
+        addButton.setForeground(new java.awt.Color(255, 255, 255));
+        addButton.setText("Insert");
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,11 +153,13 @@ public class InsertInto extends javax.swing.JFrame {
                                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(1, 1, 1)
-                                                                .addComponent(TableNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                                .addComponent(TableNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(83, 83, 83)
+                                                                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(185, Short.MAX_VALUE)
+                                .addContainerGap(195, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(103, 103, 103)
                                 .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,13 +177,14 @@ public class InsertInto extends javax.swing.JFrame {
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(closeButton)
                                                         .addComponent(insertLabel))
-                                                .addGap(34, 34, 34)
+                                                .addGap(28, 28, 28)
                                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel1)
-                                                        .addComponent(TableNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(78, 78, 78)
+                                                        .addComponent(TableNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(73, 73, 73)
                                                 .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                                                 .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(31, 31, 31))
         );
@@ -199,6 +212,12 @@ public class InsertInto extends javax.swing.JFrame {
         MainActivity mainAct = new MainActivity();
         dispose();
         mainAct.setVisible(true);// TODO add your handling code here:
+    }
+
+    private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        //MainActivity mainAct = new MainActivity();
+        //dispose();
+       // mainAct.setVisible(true);// TODO add your handling code here:
     }
 
     /**
@@ -250,5 +269,6 @@ public class InsertInto extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     public Connect connLocal;
     public ResultSet rSetPassed;
+    private javax.swing.JButton addButton;
     // End of variables declaration
 }

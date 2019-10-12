@@ -115,7 +115,7 @@ public class ConnectToDatabase extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
         jLabel5.setText("IP Address(If Any)");
 
-        Password_field.setText("Password");
+        Password_field.setText("");
         Password_field.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         Password_field.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +133,7 @@ public class ConnectToDatabase extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
         jLabel7.setText("Password :");
 
-        IPAddress_textfield.setText("IP Address");
+        IPAddress_textfield.setText("");
         IPAddress_textfield.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         IPAddress_textfield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +141,7 @@ public class ConnectToDatabase extends javax.swing.JFrame {
             }
         });
 
-        Username_TextField.setText("Username");
+        Username_TextField.setText("");
         Username_TextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         Username_TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
