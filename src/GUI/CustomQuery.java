@@ -189,19 +189,35 @@ public class CustomQuery extends javax.swing.JFrame {
                 ResultSet rSet = stmnt.executeQuery(jTextArea1.getText());
                 ResultSetMetaData rsmd = rSet.getMetaData();
                 int columnsNumber = rsmd.getColumnCount();
-                while (rSet.next()) {
-                    for (int i = 1; i <= columnsNumber; i++) {
-                        if (i > 1) System.out.print(",  ");
-                        String columnValue = rSet.getString(i);
-                        if (jLabel4.getText() != "") {
-                            jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
-                        } else {
-                            jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
-                        }
-                        System.out.print(columnValue + " " + rsmd.getColumnName(i));
-                    }
-                    System.out.println("");
+                DefaultListModel dlm = new DefaultListModel();
+                for (int i = 1; i <= columnsNumber; i++) {
+                    System.out.print(rsmd.getColumnName(i) + "  ");
+//                    dlm.add(i, rsmd.getColumnName(i) + "  ");
                 }
+                int count = 0;
+                while (rSet.next()) {
+                    System.out.println("\n");
+                    ++count;
+
+                    dlm.addElement("Row "+count + ":");
+                    for (int i = 1; i <= columnsNumber; i++) {
+                        //if (i > 1) System.out.print(",  ");
+                        String columnValue = rSet.getString(i);
+//                        if (jLabel4.getText() != "") {
+//                            jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
+//                        } else {
+//                            jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
+//                        }
+
+                        dlm.addElement(columnValue + "(" + rsmd.getColumnName(i) + ")");
+                        System.out.print(columnValue + "    ");
+                    }
+                    dlm.addElement("\n");
+                    System.out.println("");
+
+
+                }
+                outputList.setModel(dlm);
 //           while(rSet.next())
 //           {
 //               jLabel4.setText(String.valueOf(rSet.getRow()));
