@@ -97,7 +97,7 @@ public class delete_table extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel2.setText("Table Name :");
 
-        TableNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "" }));
+        TableNameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
 
         attrTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {},
@@ -133,7 +133,11 @@ public class delete_table extends javax.swing.JFrame {
         selectTable.setText("Ok");
         selectTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                selectTableMouseClicked(evt);
+                try {
+                    selectTableMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
         selectTable.addActionListener(new java.awt.event.ActionListener() {
@@ -257,27 +261,30 @@ public class delete_table extends javax.swing.JFrame {
 
         }
         else if(result == NO_OPTION){
-            //DO NOTHING
+            MainActivity mainAct = new MainActivity();
+            dispose();
+            mainAct.setVisible(true);
         }
         else{
             //DO NOTHING;
-            String selectedTable = TableNameCombo.getSelectedItem().toString();
-            DefaultTableModel modelAttrTable = (DefaultTableModel)attrTable.getModel();
-            Statement stmnt1 = connLocal.conn.createStatement();
 
-            ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
-            ResultSetMetaData rsmd = rSet.getMetaData();
-            rSet.next();
-            for(int i = 1; i<=rsmd.getColumnCount(); i++) {
-                modelAttrTable.addRow(new Object[]{rsmd.getColumnName(i), rsmd.getColumnTypeName(i)});
-            }
         }
 
 
     }//GEN-LAST:event_deleteButtonMouseClicked
 
 
-    private void selectTableMouseClicked(java.awt.event.MouseEvent evt) {
+    private void selectTableMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
+        String selectedTable = TableNameCombo.getSelectedItem().toString();
+        DefaultTableModel modelAttrTable = (DefaultTableModel)attrTable.getModel();
+        Statement stmnt1 = connLocal.conn.createStatement();
+
+        ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
+        ResultSetMetaData rsmd = rSet.getMetaData();
+        rSet.next();
+        for(int i = 1; i<=rsmd.getColumnCount(); i++) {
+            modelAttrTable.addRow(new Object[]{rsmd.getColumnName(i), rsmd.getColumnTypeName(i)});
+        }
         //MainActivity mainAct = new MainActivity();
         //dispose();
         //mainAct.setVisible(true);// TODO add your handling code here:

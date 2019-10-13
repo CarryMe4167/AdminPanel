@@ -8,8 +8,11 @@ package GUI;
 import core.Connect;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -86,7 +89,7 @@ public class InsertInto extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel1.setText("Insert Into :");
 
-        TableNameCombo.setModel(new DefaultComboBoxModel<String>(new String[] { "" }));
+        TableNameCombo.setModel(new DefaultComboBoxModel<String>(new String[] {  }));
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel2.setText("Attributes ");
@@ -96,22 +99,16 @@ public class InsertInto extends javax.swing.JFrame {
         doneButton.setText("Ok");
         doneButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                doneButtonMouseClicked(evt);
+                try {
+                    doneButtonMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null},
-                        {null, null, null}
                 },
                 new String [] {
                         "Attributes", "Data Types", "Values"
@@ -132,7 +129,11 @@ public class InsertInto extends javax.swing.JFrame {
         addButton.setText("Insert");
         addButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addButtonMouseClicked(evt);
+                try {
+                    addButtonMouseClicked(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -223,13 +224,87 @@ public class InsertInto extends javax.swing.JFrame {
         System.exit(0);        // TODO add your handling code here:
     }
 
-    private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) {
-        MainActivity mainAct = new MainActivity();
-        dispose();
-        mainAct.setVisible(true);// TODO add your handling code here:
+    private void doneButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
+
+        String tableName = TableNameCombo.getSelectedItem().toString();
+        if(tableName != null) {
+            String temp = null;
+            System.out.println(jTable1.getRowCount());
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                String dataType = (String) jTable1.getValueAt(i, 1);
+                System.out.println(dataType);
+                if (dataType == "NUMBER") {
+                    //int valueInt = Integer.parseInt((String) jTable1.getValueAt(i, 2));
+                    String valueIntString = (String) jTable1.getValueAt(i, 2);
+                    if (temp == null) {
+                        temp = valueIntString;
+                        if (i != jTable1.getRowCount() - 1) {
+                            temp = temp + ", ";
+                        }
+                    } else {
+                        temp = temp + valueIntString;
+                        if (i != jTable1.getRowCount() - 1) {
+                            temp = temp + ", ";
+                        }
+                    }
+
+                } else if (dataType == "VARCHAR2") {
+                    String valueVarchar = (String) jTable1.getValueAt(i, 2);
+                    if (temp == null) {
+                        temp = "'" + valueVarchar + "'";
+                        if (i != jTable1.getRowCount() - 1) {
+                            temp = temp + ", ";
+                        }
+                    } else {
+                        temp = temp + "'" + valueVarchar + "'";
+                        if (i != jTable1.getRowCount() - 1) {
+                            temp = temp + ", ";
+                        }
+                    }
+
+                }
+            }
+            System.out.println(temp);
+            Statement stmnt1 = connLocal.conn.createStatement();
+            try {
+                stmnt1.executeUpdate("insert into " + tableName + " values( " + temp + " )");
+                JOptionPane.showMessageDialog(null, "Values inserted");
+            } catch (Exception ex) {
+                System.out.println("Exception: " + ex);
+                JOptionPane.showMessageDialog(null, "Values not inserted");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Plz select a table");
+        }
+
+
+//        MainActivity mainAct = new MainActivity();
+//        dispose();
+//        mainAct.setVisible(true);// TODO add your handling code here:
     }
 
-    private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {
+    private void addButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
+
+        String tableName = TableNameCombo.getSelectedItem().toString();
+        if(tableName != null) {
+            Statement stmnt1 = connLocal.conn.createStatement();
+            try {
+                ResultSet rSet = stmnt1.executeQuery("select * from " + tableName);
+                ResultSetMetaData rsmd = rSet.getMetaData();
+                rSet.next();
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    DefaultTableModel modelAttrTable = (DefaultTableModel) jTable1.getModel();
+                    modelAttrTable.addRow(new Object[]{rsmd.getColumnName(i), rsmd.getColumnTypeName(i)});
+                }
+            } catch (Exception ex) {
+                System.out.println("Exception is: " + ex);
+            }
+        }else
+        {
+            JOptionPane.showMessageDialog(null, "Plz select a table");
+        }
+
+
         //MainActivity mainAct = new MainActivity();
         //dispose();
        // mainAct.setVisible(true);// TODO add your handling code here:

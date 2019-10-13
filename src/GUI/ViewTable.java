@@ -219,34 +219,37 @@ public class ViewTable extends javax.swing.JFrame {
     private void showInfoMouseClicked(MouseEvent evt) throws SQLException {
         //Attribute
         DefaultListModel dlm2 = new DefaultListModel();
-        String selectedTable = TableName.getSelectedValue();
-        System.out.println(selectedTable);
-        Statement stmnt1 = connLocal.conn.createStatement();
+        try {
+            String selectedTable = TableName.getSelectedValue();
+            System.out.println(selectedTable);
+            Statement stmnt1 = connLocal.conn.createStatement();
+            ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
+            ResultSetMetaData rsmd = rSet.getMetaData();
+            rSet.next();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                dlm2.addElement(rsmd.getColumnName(i));
+            }
 
-        ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
-        ResultSetMetaData rsmd = rSet.getMetaData();
-        rSet.next();
-        for(int i = 1; i<=rsmd.getColumnCount(); i++) {
-            dlm2.addElement(rsmd.getColumnName(i));
-        }
+            attributesList.setModel(dlm2);
 
-        attributesList.setModel(dlm2);
-
-        //Type
-        DefaultListModel dlm3 = new DefaultListModel();
+            //Type
+            DefaultListModel dlm3 = new DefaultListModel();
 
 //        Statement stmnt2 = connLocal.conn.createStatement();
 //        ResultSet rSet2 = stmnt2.executeQuery("" );
 //        ResultSetMetaData rsmd2 = rSet2.getMetaData();
 //        rSet2.next();
 
-        rSet.next();
-        for(int i = 1; i<=rsmd.getColumnCount(); i++) {
-            dlm3.addElement(rsmd.getColumnTypeName(i));
+            rSet.next();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                dlm3.addElement(rsmd.getColumnTypeName(i));
+            }
+            dataTypeList.setModel(dlm3);
+        }catch (Exception ex)
+        {
+            System.out.println("Exception: "+ ex);
+            JOptionPane.showMessageDialog(null,"Unable to view.");
         }
-
-
-        dataTypeList.setModel(dlm3);
 
     }
 

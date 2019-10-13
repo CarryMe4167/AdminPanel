@@ -270,6 +270,8 @@ public class CreateTable extends javax.swing.JFrame {
                     System.out.println("Table Added");
                     isCreated = true;
                     stmnt.close();
+                    DefaultTableModel modelAttrTable = (DefaultTableModel) Attrtable.getModel();
+                    modelAttrTable.addRow(new Object[]{addAttribute, attributeType});
 
                 } catch (Exception sqle) {
                     isCreated = false;

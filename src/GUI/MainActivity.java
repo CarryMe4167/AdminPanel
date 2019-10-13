@@ -91,7 +91,11 @@ public class MainActivity extends javax.swing.JFrame {
         ViewData.setText("View Data");
         ViewData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ViewDataActionPerformed(evt);
+                try {
+                    ViewDataActionPerformed(evt);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -269,8 +273,18 @@ public class MainActivity extends javax.swing.JFrame {
 
     }
 
-    private void ViewDataActionPerformed(java.awt.event.ActionEvent evt) {
-        ViewData viewData = new ViewData();
+    private void ViewDataActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
+
+        ResultSet rset = null;
+        try{
+            Statement stmnt = connlocal.conn.createStatement();
+            rset = stmnt.executeQuery("select table_name from user_tables");
+
+        }catch(Exception ex){
+            System.out.println("Exception: " + ex);
+        }
+
+        ViewData viewData = new ViewData(connlocal, rset);
         dispose();
         viewData.setVisible(true);// TODO add your handling code here:
     }
