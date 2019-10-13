@@ -277,6 +277,7 @@ public class delete_table extends javax.swing.JFrame {
     private void selectTableMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
         String selectedTable = TableNameCombo.getSelectedItem().toString();
         DefaultTableModel modelAttrTable = (DefaultTableModel)attrTable.getModel();
+        modelAttrTable.setRowCount(0);
         Statement stmnt1 = connLocal.conn.createStatement();
 
         ResultSet rSet = stmnt1.executeQuery("select * from " + selectedTable);
