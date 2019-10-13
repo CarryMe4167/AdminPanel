@@ -368,5 +368,6 @@ public class InsertInto extends javax.swing.JFrame {
     public ResultSet rSetPassed;
     private javax.swing.JButton addButton;
     private JLabel backButton;
+    private javax.swing.JButton delete;
     // End of variables declaration
 }
