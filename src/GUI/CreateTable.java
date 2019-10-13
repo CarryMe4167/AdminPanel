@@ -270,17 +270,31 @@ public class CreateTable extends javax.swing.JFrame {
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {
         String tableName = TableName1.getText();
         DefaultTableModel attrtableModel = (DefaultTableModel)Attrtable.getModel();
-        try{
-            int selectedRowIndex = Attrtable.getSelectedRow();
-            String columnName = (String) Attrtable.getValueAt(selectedRowIndex, 0);
-            Statement stmnt = connlocal.conn.createStatement();
-            System.out.println(tableName);
-            System.out.println(columnName);
-            stmnt.executeUpdate("alter table "+ tableName + " drop column " + columnName);
-            attrtableModel.removeRow(selectedRowIndex);
-        }catch (Exception ex)
-        {
-            JOptionPane.showMessageDialog(null, "Could not delete. Exception: " + ex);
+        if(attrtableModel.getRowCount() > 1) {
+            try {
+                int selectedRowIndex = Attrtable.getSelectedRow();
+                String columnName = (String) Attrtable.getValueAt(selectedRowIndex, 0);
+                Statement stmnt = connlocal.conn.createStatement();
+                System.out.println(tableName);
+                System.out.println(columnName);
+                stmnt.executeUpdate("alter table " + tableName + " drop column " + columnName);
+                attrtableModel.removeRow(selectedRowIndex);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Could not delete. Exception: " + ex);
+            }
+        }else  if(attrtableModel.getRowCount() == 1){
+            try {
+                int selectedRowIndex = Attrtable.getSelectedRow();
+                String columnName = (String) Attrtable.getValueAt(selectedRowIndex, 0);
+                Statement stmnt = connlocal.conn.createStatement();
+                System.out.println(tableName);
+                System.out.println(columnName);
+                stmnt.executeUpdate("drop table " + tableName);
+                attrtableModel.removeRow(selectedRowIndex);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Could not delete. Exception: " + ex);
+            }
+
         }
         // TODO add your handling code here:
     }

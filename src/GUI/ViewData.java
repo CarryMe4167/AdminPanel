@@ -129,7 +129,7 @@ public class ViewData extends javax.swing.JFrame {
         });
 
 
-
+        doneButton.setVisible(false);
         doneButton.setBackground(new java.awt.Color(255, 140, 0));
         doneButton.setForeground(new java.awt.Color(255, 255, 255));
         doneButton.setText("Ok");
