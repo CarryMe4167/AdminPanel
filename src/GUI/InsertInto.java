@@ -284,7 +284,8 @@ public class InsertInto extends javax.swing.JFrame {
     }
 
     private void addButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
-
+        DefaultTableModel modelAttrTable = (DefaultTableModel) jTable1.getModel();
+        modelAttrTable.setRowCount(0);
         String tableName = TableNameCombo.getSelectedItem().toString();
         if(tableName != null) {
             Statement stmnt1 = connLocal.conn.createStatement();
@@ -293,8 +294,9 @@ public class InsertInto extends javax.swing.JFrame {
                 ResultSetMetaData rsmd = rSet.getMetaData();
                 rSet.next();
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-                    DefaultTableModel modelAttrTable = (DefaultTableModel) jTable1.getModel();
+
                     modelAttrTable.addRow(new Object[]{rsmd.getColumnName(i), rsmd.getColumnTypeName(i)});
+
                 }
             } catch (Exception ex) {
                 System.out.println("Exception is: " + ex);

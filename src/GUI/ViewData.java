@@ -65,10 +65,10 @@ public class ViewData extends javax.swing.JFrame {
         doneButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        viewDataTable = new javax.swing.JTable();
+
         jLabel5 = new javax.swing.JLabel();
         String tableName;
-
+        dataList = new JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -84,6 +84,14 @@ public class ViewData extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
+
+        dataList.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = {  };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(dataList);
+
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 140, 0));
@@ -133,29 +141,13 @@ public class ViewData extends javax.swing.JFrame {
 
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource(new Splash().backButtonLocation))); // NOI18N
-
-        viewDataTable.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object[][]{
-
-                    },
-
-                new String[]{
-                     "col1", "col2", "col3"
-                    }
-
-
-        )
-        {
-            boolean[] canEdit = new boolean [] {
-                    false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource(new Splash().backButtonLocation)));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backButtonMouseClicked(evt);
             }
-        });
-        jScrollPane2.setViewportView(viewDataTable);
+        });// NOI18N
+
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -164,32 +156,26 @@ public class ViewData extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(65, 65, 65)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addContainerGap())
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)
+                                .addContainerGap(706, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel3)
-                                                .addContainerGap())
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(TableNameCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(60, 60, 60)
-                                                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(119, 119, 119))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel1))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(178, 178, 178)
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(260, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,10 +194,13 @@ public class ViewData extends javax.swing.JFrame {
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(TableNameCombo)
                                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(75, 75, 75)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8)
-                                .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(215, 215, 215)
+                                                .addComponent(doneButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addGap(44, 44, 44)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(25, 25, 25))
         );
 
@@ -225,7 +214,6 @@ public class ViewData extends javax.swing.JFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
         setSize(new java.awt.Dimension(890, 420));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -248,17 +236,55 @@ public class ViewData extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
 
+    private void backButtonMouseClicked(java.awt.event.MouseEvent evt) {
+        MainActivity mainAct = new MainActivity();
+        dispose();
+        mainAct.setVisible(true);// TODO add your handling code here:
+    }
+
+
+
     private void addButtonMouseClicked(java.awt.event.MouseEvent evt) throws SQLException {
 
         String tableName = TableNameCombo.getSelectedItem().toString();
+        Statement stmmnt = connLocal.conn.createStatement();
+        ResultSet rset = stmmnt.executeQuery("select * from "+ tableName);
+        ResultSetMetaData rsmd = rset.getMetaData();
+        DefaultListModel dlm = new DefaultListModel();
+        int count = 0;
+        try {
+            while (rset.next()) {
+                System.out.println("\n");
+                ++count;
+                dlm.addElement("Row " + count + ":");
+                for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                    //if (i > 1) System.out.print(",  ");
+                    String columnValue = rset.getString(i);
+//                        if (jLabel4.getText() != "") {
+//                            jLabel4.setText(jLabel4.getText() + ";  " + columnValue + " " + rsmd.getColumnName(i));
+//                        } else {
+//                            jLabel4.setText(jLabel4.getText() + columnValue + " " + rsmd.getColumnName(i));
+//                        }
+                    dlm.addElement(columnValue + "(" + rsmd.getColumnName(i) + ")");
+                    System.out.print(columnValue + "    ");
+                }
+                dlm.addElement("\n");
+                System.out.println("");
+            }
+            dataList.setModel(dlm);
+        }catch (Exception ex)
+        {
+            JOptionPane.showMessageDialog(null,"Exception is: " + ex);
+        }
+       /* String tableName = TableNameCombo.getSelectedItem().toString();
         if(tableName != null) {
             Statement stmmnt = connLocal.conn.createStatement();
             try {
                 ResultSet rset = stmmnt.executeQuery("select * from " + tableName);
                 ResultSetMetaData rsmd = rset.getMetaData();
-                DefaultTableModel modelViewDataTable = (DefaultTableModel) viewDataTable.getModel();
+                //DefaultTableModel modelViewDataTable = (DefaultTableModel) viewDataTable.getModel();
                 //rset.next();
-                JTableHeader header = viewDataTable.getTableHeader();
+                //JTableHeader header = viewDataTable.getTableHeader();
                 TableColumnModel colMod = header.getColumnModel();
                 for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                     TableColumn tabCol = colMod.getColumn(i - 1);
@@ -278,7 +304,7 @@ public class ViewData extends javax.swing.JFrame {
             }
         }else{
             JOptionPane.showMessageDialog(null, "Data can't be viewed ");
-        }
+        }*/
 //            Vector newRow = new Vector();
 //            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 //                newRow.addElement(rset.getObject(i));
@@ -340,9 +366,10 @@ public class ViewData extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable viewDataTable;
     private javax.swing.JLabel jLabel5;
     public Connect connLocal;
     public ResultSet rSet;
+    private javax.swing.JList<String> dataList;
+
     // End of variables declaration//GEN-END:variables
 }
