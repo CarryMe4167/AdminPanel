@@ -130,7 +130,7 @@ public class delete_table extends javax.swing.JFrame {
 
         selectTable.setBackground(new java.awt.Color(255, 140, 0));
         selectTable.setForeground(new java.awt.Color(255, 255, 255));
-        selectTable.setText("Ok");
+        selectTable.setText("Show Info");
         selectTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
