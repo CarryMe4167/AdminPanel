@@ -96,7 +96,7 @@ public class InsertInto extends javax.swing.JFrame {
 
         doneButton.setBackground(new java.awt.Color(255, 140, 0));
         doneButton.setForeground(new java.awt.Color(255, 255, 255));
-        doneButton.setText("Ok");
+        doneButton.setText("Insert");
         doneButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
@@ -126,7 +126,7 @@ public class InsertInto extends javax.swing.JFrame {
 
         addButton.setBackground(new java.awt.Color(255, 140, 0));
         addButton.setForeground(new java.awt.Color(255, 255, 255));
-        addButton.setText("Insert");
+        addButton.setText("Show");
         addButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
